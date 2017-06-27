@@ -1,0 +1,71 @@
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        # automatically injects dependencies in your services
+        autowire: true
+        # automatically registers your services as commands, event subscribers, etc.
+        autoconfigure: true
+        # this means you cannot fetch services directly from the container via $container->get()
+        # if you need to do this, you can override this setting on individual services
+        public: true
+
+    # makes classes in src/AppBundle available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+#    GoldenPlanet\PriceMonitoring\Infrastructure\:
+#        resource: '../../src/Infrastructure/*'
+#        # you can exclude directories or files
+#        # but if a service is unused, it's removed anyway
+#        exclude: '../../src/Infrastructure/{EventHandler,CommandHandler}'
+    GoldenPlanet\GPPAppBundle\Controller\:
+        resource: '../../../../../src/GoldenPlanet/GPPAppBundle/Controller'
+        public: true
+        tags: ['controller.service_arguments']
+
+
+#    gpp_app.example:
+#        class: GoldenPlanet\GPPAppBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+#api.app_key
+#api.app_secret
+#api.app_scope
+#app.redirect_url
+#db.url
+    http.client:
+        class: GoldenPlanet\Silex\Obb\App\CurlHttpClient
+
+    GoldenPlanet\Silex\Obb\App\AuthorizeHandler:
+        arguments:
+            - '@event_dispatcher'
+            - '@http.client'
+            - '%gpp_app.api.app_key%'
+            - '%gpp_app.api.app_secret%'
+            - '%gpp_app.api.app_scope%'
+            - '%gpp_app.app.redirect_url%'
+
+    validator.hmac:
+        class: GoldenPlanet\Silex\Obb\App\Validator\HmacValidator
+        arguments: ['%gpp_app.api.app_secret%']
+
+    validator.webhook:
+        class: GoldenPlanet\Silex\Obb\App\Validator\WebhookValidator
+        arguments: ['%gpp_app.api.app_secret%']
+
+    store.api.factory:
+        class: GoldenPlanet\Silex\Obb\App\Api\StoreApiFactory
+        arguments:
+          - '@Doctrine\DBAL\Driver\Connection'
+          - '@http.client'
+
+    GoldenPlanet\Silex\Obb\App\Install\InstallSuccessListener:
+        arguments:
+          - '@doctrine.dbal.default_connection'
+          - '@store.api.factory'
+          - '%gpp_app.app.uninstall_url%'
+        tags:
+            - { name: kernel.event_listener, event: app.installation.success, method: onSuccess, priority: 100 }
+
+    GoldenPlanet\Silex\Obb\App\Uninstall\UninstallSuccessListener:
+        arguments:
+          - '@doctrine.dbal.default_connection'
+        tags:
+            - { name: kernel.event_listener, event: app.uninstalled, method: onSuccess, priority: 100}

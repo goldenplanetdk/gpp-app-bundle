@@ -1,0 +1,4 @@
+gpp_app_all:
+    resource: "@GoldenPlanetGPPAppBundle/Controller/"
+    type:     annotation
+    prefix: /app/gpp

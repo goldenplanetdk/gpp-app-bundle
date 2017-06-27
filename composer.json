@@ -1,0 +1,21 @@
+{
+    "name": "goldenplanetdk/gpp-app-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony GPPAppBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Evgeniy Stepanov",
+            "email": "evgeniy@goldenplanet.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "symfony/dependency-injection": "~2.3|~3.0",
+        "symfony/config": "~2.3|~3.0",
+        "goldenplanetdk/obb-app-service-provider": "0.1"
+    },
+    "autoload": {
+        "psr-4": {  "GoldenPlanet\\GPPAppBundle\\": "" }
+    }
+}
