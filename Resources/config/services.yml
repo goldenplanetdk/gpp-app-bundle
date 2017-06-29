@@ -16,11 +16,16 @@ services:
 #        # you can exclude directories or files
 #        # but if a service is unused, it's removed anyway
 #        exclude: '../../src/Infrastructure/{EventHandler,CommandHandler}'
-    GoldenPlanet\GPPAppBundle\Controller\:
-        resource: '../../../../../src/GoldenPlanet/GPPAppBundle/Controller'
+    GoldenPlanet\GPPAppBundle\Controller\AuthorizeController:
+#        resource: '../../../../../GoldenPlanet/GPPAppBundle/Controller'
         public: true
         tags: ['controller.service_arguments']
 
+    GoldenPlanet\GPPAppBundle\EventSubscriber\HmacSubscriber:
+        tags: ['kernel.event_subscriber']
+
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
 
 #    gpp_app.example:
 #        class: GoldenPlanet\GPPAppBundle\Example
@@ -69,3 +74,4 @@ services:
           - '@doctrine.dbal.default_connection'
         tags:
             - { name: kernel.event_listener, event: app.uninstalled, method: onSuccess, priority: 100}
+
