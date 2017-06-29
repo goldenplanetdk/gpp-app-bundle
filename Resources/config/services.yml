@@ -17,24 +17,22 @@ services:
 #        # but if a service is unused, it's removed anyway
 #        exclude: '../../src/Infrastructure/{EventHandler,CommandHandler}'
     GoldenPlanet\GPPAppBundle\Controller\AuthorizeController:
-#        resource: '../../../../../GoldenPlanet/GPPAppBundle/Controller'
-        public: true
+        public: false
+        tags: ['controller.service_arguments']
+
+    GoldenPlanet\GPPAppBundle\Controller\UnAuthorizeController:
+        public: false
         tags: ['controller.service_arguments']
 
     GoldenPlanet\GPPAppBundle\EventSubscriber\HmacSubscriber:
         tags: ['kernel.event_subscriber']
 
+    GoldenPlanet\GPPAppBundle\EventSubscriber\WebhookSubscriber:
+        tags: ['kernel.event_subscriber']
+
         # you can exclude directories or files
         # but if a service is unused, it's removed anyway
 
-#    gpp_app.example:
-#        class: GoldenPlanet\GPPAppBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
-#api.app_key
-#api.app_secret
-#api.app_scope
-#app.redirect_url
-#db.url
     http.client:
         class: GoldenPlanet\Silex\Obb\App\CurlHttpClient
 
@@ -47,12 +45,10 @@ services:
             - '%gpp_app.api.app_scope%'
             - '%gpp_app.app.redirect_url%'
 
-    validator.hmac:
-        class: GoldenPlanet\Silex\Obb\App\Validator\HmacValidator
+    GoldenPlanet\Silex\Obb\App\Validator\HmacValidator:
         arguments: ['%gpp_app.api.app_secret%']
 
-    validator.webhook:
-        class: GoldenPlanet\Silex\Obb\App\Validator\WebhookValidator
+    GoldenPlanet\Silex\Obb\App\Validator\WebhookValidator:
         arguments: ['%gpp_app.api.app_secret%']
 
     store.api.factory:
