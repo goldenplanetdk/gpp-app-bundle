@@ -38,9 +38,15 @@ class HmacSubscriber implements EventSubscriberInterface
         }
 
         if ($controller[0] instanceof HmacAuthenticatedController) {
+            $session = $event->getRequest()->getSession();
+            $shop = $event->getRequest()->query->get('shop', '');
+            if ($session->has('shop') && ($shop === $session->get('shop') || !$shop)) {
+                return; // already checked for this session
+            }
             $queryString = $event->getRequest()->server->get('QUERY_STRING');
             try {
                 $this->validator->validate($queryString);
+                $event->getRequest()->getSession()->set('shop', $event->getRequest()->query->get('shop'));
             } catch (\InvalidArgumentException $exception) {
                  throw new AccessDeniedHttpException('This action needs a valid hmac sign');
             }
