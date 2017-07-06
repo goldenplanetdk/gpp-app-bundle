@@ -13,7 +13,10 @@
         "php": ">=7.0",
         "symfony/dependency-injection": "~2.3|~3.0",
         "symfony/config": "~2.3|~3.0",
-        "goldenplanetdk/gpp-app-installer": "0.1"
+        "goldenplanetdk/gpp-app-installer": "0.1",
+        "symfony/http-kernel": "^3.3",
+        "symfony/framework-bundle": "^3.3",
+        "sensio/framework-extra-bundle": "^3.0"
     },
     "autoload": {
         "psr-4": {  "GoldenPlanet\\GPPAppBundle\\": "" }

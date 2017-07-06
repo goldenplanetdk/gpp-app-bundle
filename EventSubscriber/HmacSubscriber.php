@@ -2,12 +2,9 @@
 
 namespace GoldenPlanet\GPPAppBundle\EventSubscriber;
 
+use GoldenPlanet\Gpp\App\Installer\Validator\HmacValidator;
 use GoldenPlanet\GPPAppBundle\Controller\HmacAuthenticatedController;
-use GoldenPlanet\Silex\Obb\App\Validator\HmacValidator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\KernelEvents;
 
 class HmacSubscriber implements EventSubscriberInterface
 {

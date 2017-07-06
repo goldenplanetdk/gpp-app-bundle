@@ -2,7 +2,7 @@
 
 namespace GoldenPlanet\GPPAppBundle\Controller;
 
-use GoldenPlanet\Silex\Obb\App\UninstalledSuccess;
+use GoldenPlanet\Gpp\App\Installer\UninstalledSuccess;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

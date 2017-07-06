@@ -2,8 +2,8 @@
 
 namespace GoldenPlanet\GPPAppBundle\EventSubscriber;
 
+use GoldenPlanet\Gpp\App\Installer\Validator\WebhookValidator;
 use GoldenPlanet\GPPAppBundle\Controller\WebhookAuthenticatedController;
-use GoldenPlanet\Silex\Obb\App\Validator\WebhookValidator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;

@@ -2,7 +2,7 @@
 
 namespace GoldenPlanet\GPPAppBundle\Controller;
 
-use GoldenPlanet\Silex\Obb\App\AuthorizeHandler;
+use GoldenPlanet\Gpp\App\Installer\AuthorizeHandler;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
