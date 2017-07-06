@@ -34,9 +34,9 @@ services:
         # but if a service is unused, it's removed anyway
 
     http.client:
-        class: GoldenPlanet\Silex\Obb\App\CurlHttpClient
+        class: GoldenPlanet\Gpp\App\Installer\CurlHttpClient
 
-    GoldenPlanet\Silex\Obb\App\AuthorizeHandler:
+    GoldenPlanet\Gpp\App\Installer\AuthorizeHandler:
         arguments:
             - '@event_dispatcher'
             - '@http.client'
@@ -45,19 +45,19 @@ services:
             - '%gpp_app.api.app_scope%'
             - '%gpp_app.app.redirect_url%'
 
-    GoldenPlanet\Silex\Obb\App\Validator\HmacValidator:
+    GoldenPlanet\Gpp\App\Installer\Validator\HmacValidator:
         arguments: ['%gpp_app.api.app_secret%']
 
-    GoldenPlanet\Silex\Obb\App\Validator\WebhookValidator:
+    GoldenPlanet\Gpp\App\Installer\Validator\WebhookValidator:
         arguments: ['%gpp_app.api.app_secret%']
 
     store.api.factory:
-        class: GoldenPlanet\Silex\Obb\App\Api\StoreApiFactory
+        class: GoldenPlanet\Gpp\App\Installer\Api\StoreApiFactory
         arguments:
           - '@Doctrine\DBAL\Driver\Connection'
           - '@http.client'
 
-    GoldenPlanet\Silex\Obb\App\Install\InstallSuccessListener:
+    GoldenPlanet\Gpp\App\Installer\Install\InstallSuccessListener:
         arguments:
           - '@doctrine.dbal.default_connection'
           - '@store.api.factory'
@@ -65,7 +65,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: app.installation.success, method: onSuccess, priority: 100 }
 
-    GoldenPlanet\Silex\Obb\App\Uninstall\UninstallSuccessListener:
+    GoldenPlanet\Gpp\App\Installer\Uninstall\UninstallSuccessListener:
         arguments:
           - '@doctrine.dbal.default_connection'
         tags:
