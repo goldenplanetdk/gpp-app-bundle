@@ -51,23 +51,20 @@ services:
     GoldenPlanet\Gpp\App\Installer\Validator\WebhookValidator:
         arguments: ['%gpp_app.api.app_secret%']
 
-    store.api.factory:
-        class: GoldenPlanet\Gpp\App\Installer\Api\StoreApiFactory
+    GoldenPlanet\Gpp\App\Installer\Api\StoreApiFactory:
         arguments:
           - '@Doctrine\DBAL\Driver\Connection'
           - '@http.client'
 
     GoldenPlanet\Gpp\App\Installer\Install\InstallSuccessListener:
         arguments:
-          - '@doctrine.dbal.default_connection'
-          - '@store.api.factory'
-          - '%gpp_app.app.uninstall_url%'
+          $backUrl: '%gpp_app.app.uninstall_url%'
         tags:
-            - { name: kernel.event_listener, event: app.installation.success, method: onSuccess, priority: 100 }
+            - { name: kernel.event_listener, event: app.installation.success, method: onSuccess, priority: 1000 }
 
     GoldenPlanet\Gpp\App\Installer\Uninstall\UninstallSuccessListener:
         arguments:
           - '@doctrine.dbal.default_connection'
         tags:
-            - { name: kernel.event_listener, event: app.uninstalled, method: onSuccess, priority: 100}
+            - { name: kernel.event_listener, event: app.uninstalled, method: onSuccess, priority: -1000}
 

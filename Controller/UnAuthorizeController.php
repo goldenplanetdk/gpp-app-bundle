@@ -7,7 +7,7 @@ use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,11 +22,11 @@ class UnAuthorizeController extends Controller implements WebhookAuthenticatedCo
      * @Method("POST")
      *
      * @param Request $request
-     * @param EventDispatcher $dispatcher
+     * @param EventDispatcherInterface $dispatcher
      * @param LoggerInterface $logger
      * @return Response
      */
-    public function unAuthorizeAction(Request $request, EventDispatcher $dispatcher, LoggerInterface $logger)
+    public function unAuthorizeAction(Request $request, EventDispatcherInterface $dispatcher, LoggerInterface $logger)
     {
         $data = json_decode($request->getContent(), true);
 
