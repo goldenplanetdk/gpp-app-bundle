@@ -83,7 +83,7 @@ class HmacAuthenticator implements SimplePreAuthenticatorInterface, Authenticati
             $user,
             $queryString,
             $providerKey,
-            $user->getRoles()
+            array_merge($user->getRoles(), ['ROLE_HMAC'])
         );
     }
 
