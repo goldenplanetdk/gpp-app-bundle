@@ -40,7 +40,7 @@ gpp_app:
     firewalls:
 
         app-install:
-            pattern:  ^/app/gpp/authorize
+            pattern:  ^/app/gpp/
             stateless: true
             anonymous: true
         
@@ -53,7 +53,7 @@ gpp_app:
             
     access_control:
 
-        - { path: ^/app/gpp/authorize,     roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/app/gpp/,     roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/,  roles: IS_AUTHENTICATED_FULLY  }
 
 ```
