@@ -33,3 +33,27 @@ gpp_app:
     env(API_SCOPE):
     env(REDIRECT_URL): http://obb.docker:8888/app/gpp/oauth/authorize
     env(UNINSTALL_URL): http://obb.docker:8888/app/gpp/oauth/unauthorize
+
+### security.yml
+
+```yaml
+    firewalls:
+
+        app-install:
+            pattern:  ^/app/gpp/authorize
+            stateless: true
+            anonymous: true
+        
+        secured_area:
+            pattern:    ^/
+            stateless: false
+            simple_preauth:
+                authenticator: GoldenPlanet\GPPAppBundle\Security\HmacAuthenticator
+            provider: store
+            
+    access_control:
+
+        - { path: ^/app/gpp/authorize,     roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/,  roles: IS_AUTHENTICATED_FULLY  }
+
+```

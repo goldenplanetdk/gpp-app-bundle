@@ -16,7 +16,8 @@
         "goldenplanetdk/gpp-app-installer": "^0.2",
         "symfony/http-kernel": "^3.3",
         "symfony/framework-bundle": "^3.3",
-        "sensio/framework-extra-bundle": "^3.0"
+        "sensio/framework-extra-bundle": "^3.0",
+        "symfony/security": "^3.3"
     },
     "autoload": {
         "psr-4": {  "GoldenPlanet\\GPPAppBundle\\": "" }

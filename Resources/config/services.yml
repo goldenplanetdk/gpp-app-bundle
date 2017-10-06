@@ -30,6 +30,9 @@ services:
     GoldenPlanet\GPPAppBundle\EventSubscriber\WebhookSubscriber:
         tags: ['kernel.event_subscriber']
 
+    GoldenPlanet\GPPAppBundle\Security\HmacAuthenticator:
+        public: true
+
         # you can exclude directories or files
         # but if a service is unused, it's removed anyway
 
