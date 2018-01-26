@@ -1,0 +1,46 @@
+<?php
+
+namespace GoldenPlanet\GPPAppBundle\Security;
+
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+
+/**
+ * In case if two store already authenticated remove token from session and try auth one more time
+ *
+ * Class HmacAuthenticatorListener
+ * @package GoldenPlanet\PriceMonitoring\Infrastructure\AppBundle\Security
+ */
+class HmacAuthenticatorListener
+{
+
+    private $firewallKey; // firewall key in security.yml
+
+    /**
+     * HmacAuthenticatorListener constructor.
+     */
+    public function __construct($firewallKey = 'secured_area')
+    {
+        $this->firewallKey = $firewallKey;
+    }
+
+    public function onKernelRequest(GetResponseEvent $event)
+    {
+        $request = $event->getRequest();
+        $firewall = '_security_' . $this->firewallKey;
+        $data = unserialize($request->getSession()->get($firewall));
+        $shop = $request->get('shop');
+
+        if (!($data instanceof TokenInterface) || !$data || !$shop) {
+            return;
+        }
+
+        if (!$data->getUser()) {
+            return;
+        }
+
+        if ($shop !== $data->getUser()->domain()) {
+            $request->getSession()->remove($firewall);
+        }
+    }
+}

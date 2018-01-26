@@ -71,3 +71,8 @@ services:
         tags:
             - { name: kernel.event_listener, event: app.uninstalled, method: onSuccess, priority: -1000}
 
+    GoldenPlanet\GPPAppBundle\Security\HmacAuthenticatorListener:
+       tags:
+         - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 9 }
+       arguments:
+         $firewallKey: '%firewall_key.name%'

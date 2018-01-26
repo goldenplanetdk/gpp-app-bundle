@@ -30,5 +30,6 @@ class GoldenPlanetGPPAppExtension extends Extension
         $container->setParameter('gpp_app.api.app_scope', $config['api']['app_scope']);
         $container->setParameter('gpp_app.app.redirect_url', $config['app']['redirect_url']);
         $container->setParameter('gpp_app.app.uninstall_url', $config['app']['uninstall_url']);
+        $container->setParameter('firewall_key.name', $config['gpp_app']['firewall_key_name'] ?? 'secured_area');
     }
 }
