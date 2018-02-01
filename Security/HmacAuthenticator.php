@@ -33,7 +33,7 @@ class HmacAuthenticator implements SimplePreAuthenticatorInterface, Authenticati
         $shop = $request->query->get('shop');
 
         if (!$shop) {
-            throw new BadCredentialsException();
+            return;
         }
         $queryString = $request->server->get('QUERY_STRING');
 
