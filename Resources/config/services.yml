@@ -36,13 +36,12 @@ services:
         # you can exclude directories or files
         # but if a service is unused, it's removed anyway
 
-    http.client:
-        class: GoldenPlanet\Gpp\App\Installer\CurlHttpClient
+    GoldenPlanet\Gpp\App\Installer\CurlHttpClient: ~
 
     GoldenPlanet\Gpp\App\Installer\AuthorizeHandler:
         arguments:
             - '@event_dispatcher'
-            - '@http.client'
+            - '@GoldenPlanet\Gpp\App\Installer\CurlHttpClient'
             - '%gpp_app.api.app_key%'
             - '%gpp_app.api.app_secret%'
             - '%gpp_app.api.app_scope%'
@@ -57,7 +56,7 @@ services:
     GoldenPlanet\Gpp\App\Installer\Api\StoreApiFactory:
         arguments:
           - '@Doctrine\DBAL\Driver\Connection'
-          - '@http.client'
+          - '@GoldenPlanet\Gpp\App\Installer\CurlHttpClient'
 
     GoldenPlanet\Gpp\App\Installer\Install\InstallSuccessListener:
         arguments:

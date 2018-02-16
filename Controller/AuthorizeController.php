@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * @Route("/oauth")
@@ -25,10 +25,10 @@ class AuthorizeController extends Controller implements HmacAuthenticatedControl
      * @param Request $request
      * @param AuthorizeHandler $authHandler
      * @param LoggerInterface $logger
-     * @param Session $session
+     * @param SessionInterface $session
      * @return RedirectResponse|Response
      */
-    public function authorizeAction(LoggerInterface $logger, Session $session, Request $request, AuthorizeHandler $authHandler= null)
+    public function authorizeAction(LoggerInterface $logger, SessionInterface $session, Request $request, AuthorizeHandler $authHandler= null)
     {
         $shop = $request->query->get('shop');
         $code = $request->query->get('code');
@@ -56,7 +56,7 @@ class AuthorizeController extends Controller implements HmacAuthenticatedControl
             return new RedirectResponse($url);
         } elseif ($code) {
             // Step 2: do a form POST to get the access token
-            /** @var Session $session */
+            /** @var SessionInterface $session */
             $state = $request->query->get('state');
             if (!$state || $state !== $session->get('state')) {
                 throw new \InvalidArgumentException('State for this request is incorrect');
