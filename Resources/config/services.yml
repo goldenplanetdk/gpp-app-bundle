@@ -38,10 +38,13 @@ services:
 
     GoldenPlanet\Gpp\App\Installer\CurlHttpClient: ~
 
+    GoldenPlanet\Gpp\App\Installer\Client:
+        alias: GoldenPlanet\Gpp\App\Installer\CurlHttpClient
+
     GoldenPlanet\Gpp\App\Installer\AuthorizeHandler:
         arguments:
             - '@event_dispatcher'
-            - '@GoldenPlanet\Gpp\App\Installer\CurlHttpClient'
+            - '@GoldenPlanet\Gpp\App\Installer\Client'
             - '%gpp_app.api.app_key%'
             - '%gpp_app.api.app_secret%'
             - '%gpp_app.api.app_scope%'
@@ -56,7 +59,7 @@ services:
     GoldenPlanet\Gpp\App\Installer\Api\StoreApiFactory:
         arguments:
           - '@Doctrine\DBAL\Driver\Connection'
-          - '@GoldenPlanet\Gpp\App\Installer\CurlHttpClient'
+          - '@GoldenPlanet\Gpp\App\Installer\Client'
 
     GoldenPlanet\Gpp\App\Installer\Install\InstallSuccessListener:
         arguments:
