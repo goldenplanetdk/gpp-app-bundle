@@ -31,7 +31,7 @@ class UnAuthorizeController extends Controller implements WebhookAuthenticatedCo
         $data = json_decode($request->getContent(), true);
 
         if (empty($data)) {
-            return new Response('Bad request', 404);
+            return new Response('Bad request', \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND);
         }
 
         $event = new UninstalledSuccess($data);
