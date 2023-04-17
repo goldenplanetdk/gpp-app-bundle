@@ -93,7 +93,7 @@ class HmacAuthenticator implements SimplePreAuthenticatorInterface, Authenticati
         // this contains information about *why* authentication failed
         // use it, or return your own message
             strtr($exception->getMessageKey(), $exception->getMessageData()),
-            401
+            \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED
         );
     }
 }
