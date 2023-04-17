@@ -11,12 +11,11 @@
     ],
     "require": {
         "php": ">=7.0",
-        "symfony/dependency-injection": "~4.0",
+        "symfony/dependency-injection": "*",
         "symfony/config": "*",
         "goldenplanetdk/gpp-app-installer": "^1.0.0",
-        "symfony/http-kernel": "~4.0",
+        "symfony/http-kernel": "*",
         "symfony/framework-bundle": "*",
-        "sensio/framework-extra-bundle": "^6.2",
         "symfony/security": "*"
     },
     "autoload": {
