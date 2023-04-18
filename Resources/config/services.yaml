@@ -66,6 +66,7 @@ services:
           $backUrl: '%gpp_app.app.uninstall_url%'
         tags:
             - { name: kernel.event_listener, event: app.installation.success, method: onSuccess, priority: 1000 }
+            - { name: kernel.event_listener, event: app.update.scheme, method: updateScheme, priority: 0 }
 
     GoldenPlanet\Gpp\App\Installer\Uninstall\UninstallSuccessListener:
         arguments:

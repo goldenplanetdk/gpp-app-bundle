@@ -34,7 +34,7 @@ class UnAuthorizeController extends AbstractController implements WebhookAuthent
 
         $event = new UninstalledSuccess($data);
         $logger->debug('removing app');
-        $dispatcher->dispatch('app.uninstalled', $event);
+        $dispatcher->dispatch($event, 'app.uninstalled');
         $logger->debug('app removed');
 
         return new Response('Success');

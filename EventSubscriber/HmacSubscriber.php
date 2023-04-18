@@ -55,7 +55,7 @@ class HmacSubscriber implements EventSubscriberInterface
                 $this->validator->validate($queryString);
                 $event->getRequest()->getSession()->set('shop', $event->getRequest()->query->get('shop'));
                 $isSecure = (bool)$event->getRequest()->get('https', false);
-                $this->dispatcher->dispatch(new UpdateScheme($shop, $isSecure));
+                $this->dispatcher->dispatch(new UpdateScheme($shop, $isSecure), 'app.update.scheme');
             } catch (\InvalidArgumentException $exception) {
                  throw new AccessDeniedHttpException('This action needs a valid hmac sign');
             }
