@@ -3,6 +3,7 @@
 namespace GoldenPlanet\GPPAppBundle\Security;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -24,7 +25,7 @@ class HmacAuthenticatorListener
         $this->firewallKey = $firewallKey;
     }
 
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
         $request = $event->getRequest();
         $firewall = '_security_' . $this->firewallKey;

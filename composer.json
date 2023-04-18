@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.4",
         "symfony/dependency-injection": "*",
         "symfony/config": "*",
         "goldenplanetdk/gpp-app-installer": "^1.0.0",
