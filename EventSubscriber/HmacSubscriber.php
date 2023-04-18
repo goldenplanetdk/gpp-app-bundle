@@ -14,21 +14,10 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class HmacSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var HmacValidator
-     */
-    private $validator;
-	/**
-	 * @var EventDispatcherInterface
-	 */
-	private $dispatcher;
-
-	/**
      * HmacSubscriber constructor.
      */
-    public function __construct(HmacValidator $validator, EventDispatcherInterface $dispatcher)
+    public function __construct(private readonly HmacValidator $validator, private readonly EventDispatcherInterface $dispatcher)
     {
-        $this->validator = $validator;
-        $this->dispatcher = $dispatcher;
     }
 
     public function onKernelController(ControllerEvent $event)
@@ -56,7 +45,7 @@ class HmacSubscriber implements EventSubscriberInterface
                 $event->getRequest()->getSession()->set('shop', $event->getRequest()->query->get('shop'));
                 $isSecure = (bool)$event->getRequest()->get('https', false);
                 $this->dispatcher->dispatch(new UpdateScheme($shop, $isSecure), 'app.update.scheme');
-            } catch (\InvalidArgumentException $exception) {
+            } catch (\InvalidArgumentException) {
                  throw new AccessDeniedHttpException('This action needs a valid hmac sign');
             }
         }
@@ -67,8 +56,6 @@ class HmacSubscriber implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
-            KernelEvents::CONTROLLER => 'onKernelController',
-        );
+        return [KernelEvents::CONTROLLER => 'onKernelController'];
     }
 }

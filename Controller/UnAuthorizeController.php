@@ -10,23 +10,17 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @Route("/oauth")
- */
+#[Route(path: '/oauth')]
 class UnAuthorizeController extends AbstractController implements WebhookAuthenticatedController
 {
 
     /**
-     * @Route("/unauthorize", name="oauth_un_authorize", methods={"POST"})
-     *
-     * @param Request $request
-     * @param EventDispatcherInterface $dispatcher
-     * @param LoggerInterface $logger
      * @return Response
      */
+    #[Route(path: '/unauthorize', name: 'oauth_un_authorize', methods: ['POST'])]
     public function unAuthorizeAction(Request $request, EventDispatcherInterface $dispatcher, LoggerInterface $logger)
     {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         if (empty($data)) {
             return new Response('Bad request', \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND);

@@ -11,22 +11,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-/**
- * @Route("/oauth")
- */
+#[Route(path: '/oauth')]
 class AuthorizeController extends AbstractController implements HmacAuthenticatedController
 {
 
     /**
-     * @Route("/authorize", name="oauth_authorize", methods={"GET"})
-     *
-     * @param Request $request
-     * @param AuthorizeHandler $authHandler
-     * @param LoggerInterface $logger
-     * @param SessionInterface $session
      * @return RedirectResponse|Response
      */
-    public function authorizeAction(LoggerInterface $logger, SessionInterface $session, Request $request, AuthorizeHandler $authHandler= null)
+    #[Route(path: '/authorize', name: 'oauth_authorize', methods: ['GET'])]
+    public function authorizeAction(LoggerInterface $logger, SessionInterface $session, Request $request, AuthorizeHandler $authHandler= null): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
         $shop = $request->query->get('shop');
         $code = $request->query->get('code');

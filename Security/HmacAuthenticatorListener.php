@@ -15,14 +15,13 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class HmacAuthenticatorListener
 {
 
-    private $firewallKey; // firewall key in security.yml
+    // firewall key in security.yml
 
     /**
      * HmacAuthenticatorListener constructor.
      */
-    public function __construct($firewallKey = 'secured_area')
+    public function __construct(private $firewallKey = 'secured_area')
     {
-        $this->firewallKey = $firewallKey;
     }
 
     public function onKernelRequest(RequestEvent $event)

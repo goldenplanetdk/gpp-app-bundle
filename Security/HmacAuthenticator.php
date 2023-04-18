@@ -18,14 +18,8 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 class HmacAuthenticator extends AbstractGuardAuthenticator
 {
 
-    /**
-     * @var HmacValidator
-     */
-    private $validator;
-
-    public function __construct(HmacValidator $validator)
+    public function __construct(private readonly HmacValidator $validator)
     {
-        $this->validator = $validator;
     }
 
     /**
@@ -51,7 +45,7 @@ class HmacAuthenticator extends AbstractGuardAuthenticator
 
         $queryString = $request->server->get('QUERY_STRING');
 
-        return base64_encode($shop) . ':' . base64_encode($queryString);
+        return base64_encode($shop) . ':' . base64_encode((string) $queryString);
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider): ?UserInterface
@@ -61,12 +55,12 @@ class HmacAuthenticator extends AbstractGuardAuthenticator
             // Code 401 "Unauthorized"
             return null;
         }
-        list($username, $queryString) = explode(':', $credentials);
+        [$username, $queryString] = explode(':', (string) $credentials);
         $username = base64_decode($username);
         $queryString = base64_decode($queryString);
         try {
             $this->validator->validate($queryString);
-        } catch (\InvalidArgumentException $exception) {
+        } catch (\InvalidArgumentException) {
             throw new CustomUserMessageAuthenticationException(
                 'This action needs a valid hmac sign'
             );

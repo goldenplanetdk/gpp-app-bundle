@@ -12,17 +12,10 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class WebhookSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var WebhookValidator
-     */
-    private $validator;
-
-    /**
      * WebhookSubscriber constructor.
-     * @param WebhookValidator $validator
      */
-    public function __construct(WebhookValidator $validator)
+    public function __construct(private readonly WebhookValidator $validator)
     {
-        $this->validator = $validator;
     }
 
     public function onKernelController(FilterControllerEvent $event)
@@ -43,7 +36,7 @@ class WebhookSubscriber implements EventSubscriberInterface
             $payload = $event->getRequest()->getContent();
             try {
                 $this->validator->validate($payload, $event->getRequest()->headers->get('X-OBB-SIGNATURE'));
-            } catch (\InvalidArgumentException $exception) {
+            } catch (\InvalidArgumentException) {
                  throw new AccessDeniedHttpException('This action needs a valid signature');
             }
         }
@@ -54,8 +47,6 @@ class WebhookSubscriber implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
-            KernelEvents::CONTROLLER => 'onKernelController',
-        );
+        return [KernelEvents::CONTROLLER => 'onKernelController'];
     }
 }
