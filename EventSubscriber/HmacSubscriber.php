@@ -7,7 +7,7 @@ use GoldenPlanet\Gpp\App\Installer\Validator\HmacValidator;
 use GoldenPlanet\GPPAppBundle\Controller\HmacAuthenticatedController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -28,10 +28,10 @@ class HmacSubscriber implements EventSubscriberInterface
     public function __construct(HmacValidator $validator, EventDispatcherInterface $dispatcher)
     {
         $this->validator = $validator;
-		$this->dispatcher = $dispatcher;
-	}
+        $this->dispatcher = $dispatcher;
+    }
 
-    public function onKernelController(FilterControllerEvent $event)
+    public function onKernelController(ControllerEvent $event)
     {
         $controller = $event->getController();
 
@@ -55,7 +55,7 @@ class HmacSubscriber implements EventSubscriberInterface
                 $this->validator->validate($queryString);
                 $event->getRequest()->getSession()->set('shop', $event->getRequest()->query->get('shop'));
                 $isSecure = (bool)$event->getRequest()->get('https', false);
-                $this->dispatcher->dispatch('app.update.scheme', new UpdateScheme($shop, $isSecure));
+                $this->dispatcher->dispatch(new UpdateScheme($shop, $isSecure));
             } catch (\InvalidArgumentException $exception) {
                  throw new AccessDeniedHttpException('This action needs a valid hmac sign');
             }

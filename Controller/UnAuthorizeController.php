@@ -4,9 +4,8 @@ namespace GoldenPlanet\GPPAppBundle\Controller;
 
 use GoldenPlanet\Gpp\App\Installer\UninstalledSuccess;
 use Psr\Log\LoggerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,12 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Route("/oauth")
  */
-class UnAuthorizeController extends Controller implements WebhookAuthenticatedController
+class UnAuthorizeController extends AbstractController implements WebhookAuthenticatedController
 {
 
     /**
-     * @Route("/unauthorize", name="oauth_un_authorize")
-     * @Method("POST")
+     * @Route("/unauthorize", name="oauth_un_authorize", methods={"POST"})
      *
      * @param Request $request
      * @param EventDispatcherInterface $dispatcher
