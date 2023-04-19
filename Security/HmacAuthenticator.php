@@ -69,7 +69,7 @@ class HmacAuthenticator extends AbstractGuardAuthenticator
         // The "username" in this case is the apiToken, see the key `property`
         // of `your_db_provider` in `security.yaml`.
         // If this returns a user, checkCredentials() is called next:
-        return $userProvider->loadUserByUsername($credentials);
+        return $userProvider->loadUserByUsername($username);
     }
 
     public function checkCredentials($credentials, UserInterface $user): bool
