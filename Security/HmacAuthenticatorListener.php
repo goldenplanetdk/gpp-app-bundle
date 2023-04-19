@@ -28,7 +28,7 @@ class HmacAuthenticatorListener
     {
         $request = $event->getRequest();
         $firewall = '_security_' . $this->firewallKey;
-        $data = unserialize($request->getSession()->get($firewall));
+        $data = unserialize($request->getSession()->get($firewall,''));
         $shop = $request->get('shop');
 
         if (!($data instanceof TokenInterface) || !$data || !$shop) {
