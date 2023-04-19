@@ -4,12 +4,12 @@ namespace GoldenPlanet\GPPAppBundle\Controller;
 
 use GoldenPlanet\Gpp\App\Installer\AuthorizeHandler;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(path: '/oauth')]
 class AuthorizeController extends AbstractController implements HmacAuthenticatedController
@@ -21,8 +21,9 @@ class AuthorizeController extends AbstractController implements HmacAuthenticate
     #[Route(path: '/authorize', name: 'oauth_authorize', methods: ['GET'])]
     public function authorizeAction(LoggerInterface $logger, SessionInterface $session, Request $request, AuthorizeHandler $authHandler= null): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
-        $shop = $request->query->get('shop');
-        $code = $request->query->get('code');
+        $shop = $request->query->get('shop', '');
+        $code = $request->query->get('code', '');
+        $timestamp = $request->query->get('timestamp', 0);
         $isSecure = $request->query->get('https', 0);
         $proto = $isSecure ? 'https' : 'http';
 
@@ -47,9 +48,7 @@ class AuthorizeController extends AbstractController implements HmacAuthenticate
             return new RedirectResponse($url);
         } elseif ($code) {
             // Step 2: do a form POST to get the access token
-            /** @var SessionInterface $session */
-            $state = $request->query->get('state');
-            if (!$state || $state !== $session->get('state')) {
+            if (!$timestamp || abs(time() - $timestamp) > 3600 * 2) {
                 throw new \InvalidArgumentException('State for this request is incorrect');
             }
 
