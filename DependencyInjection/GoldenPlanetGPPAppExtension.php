@@ -22,14 +22,13 @@ class GoldenPlanetGPPAppExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.yaml');
-
-        $container->setParameter('gpp_app.api.app_key', $config['api']['app_key']);
-        $container->setParameter('gpp_app.api.app_secret', $config['api']['app_secret']);
-        $container->setParameter('gpp_app.api.app_scope', $config['api']['app_scope']);
-        $container->setParameter('gpp_app.app.redirect_url', $config['app']['redirect_url']);
-        $container->setParameter('gpp_app.app.uninstall_url', $config['app']['uninstall_url']);
+        $loader = new Loader\PhpFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('services.php');
+        $container->setParameter('golden_planet_gpp_app.api.app_key', $config['api']['app_key']);
+        $container->setParameter('golden_planet_gpp_app.api.app_secret', $config['api']['app_secret']);
+        $container->setParameter('golden_planet_gpp_app.api.app_scope', $config['api']['app_scope']);
+        $container->setParameter('golden_planet_gpp_app.app.redirect_url', $config['app']['redirect_url']);
+        $container->setParameter('golden_planet_gpp_app.app.uninstall_url', $config['app']['uninstall_url']);
         $container->setParameter('firewall_key.name', $config['gpp_app']['firewall_key_name'] ?? 'secured_area');
     }
 }

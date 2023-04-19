@@ -5,9 +5,9 @@ namespace GoldenPlanet\GPPAppBundle\EventSubscriber;
 use GoldenPlanet\Gpp\App\Installer\Validator\WebhookValidator;
 use GoldenPlanet\GPPAppBundle\Controller\WebhookAuthenticatedController;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 
 class WebhookSubscriber implements EventSubscriberInterface
 {
