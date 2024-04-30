@@ -52,7 +52,7 @@ class AuthorizeController extends AbstractController implements HmacAuthenticate
                 throw new \InvalidArgumentException('State for this request is incorrect');
             }
 
-            $session->clear();
+//            $session->clear();
             $token = $authHandler->token($shop, $code, $proto);
 
             // Now, request the token and store it in your session.
