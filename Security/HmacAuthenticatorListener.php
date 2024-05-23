@@ -2,7 +2,6 @@
 
 namespace GoldenPlanet\GPPAppBundle\Security;
 
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -39,7 +38,8 @@ class HmacAuthenticatorListener
             return;
         }
 
-        if ($shop !== $data->getUser()->domain()) {
+        $store = $data->getUser()->store();
+        if ($store && $store->domain() != $shop) {
             $request->getSession()->remove($firewall);
         }
     }
