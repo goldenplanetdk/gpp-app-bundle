@@ -27,7 +27,7 @@ class AuthorizeController extends AbstractController implements HmacAuthenticate
         $isSecure = $request->query->get('https', 0);
         $proto = $isSecure ? 'https' : 'http';
 
-        if (!preg_match('#^[a-z0-9.-:]+$#', $shop)) {
+        if (!preg_match('#^[a-z0-9.\-:]+$#', $shop)) {
             throw new \InvalidArgumentException('Invalid shop value');
         }
 
