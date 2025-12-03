@@ -26,6 +26,12 @@ class HmacAuthenticatorListener
     public function onKernelRequest(RequestEvent $event)
     {
         $request = $event->getRequest();
+
+        // Skip for stateless requests (API) - no session available
+        if (!$request->hasSession() || !$request->getSession()->isStarted()) {
+            return;
+        }
+
         $firewall = '_security_' . $this->firewallKey;
         $data = unserialize($request->getSession()->get($firewall,''));
         $shop = $request->get('shop');
